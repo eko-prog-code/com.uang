@@ -1,43 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { TransactionList } from "../../components";
-import { Fire } from "../../config";
-import { colors, getData } from "../../utils";
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { TransactionList } from '../../components'
+import { Fire } from '../../config'
+import { colors, getData } from '../../utils'
 
 const ListTransaction = () => {
-  const [user, setUser] = useState({});
-  const [data, setData] = useState([]);
+  const [user, setUser] = useState({})
+  const [data, setData] = useState([])
 
   useEffect(() => {
-    getDataUserFromLocal();
-  }, []);
+    getDataUserFromLocal()
+  }, [])
 
   useEffect(() => {
-    if (user.uid !== undefined) {
-      getList();
+    if (user?.uid !== undefined) {
+      getList()
     }
-  }, [user]);
+  }, [user])
 
   const getDataUserFromLocal = () => {
-    getData("user").then((res) => {
-      setUser(res);
-    });
-  };
+    getData('user').then((res) => {
+      setUser(res)
+    })
+  }
 
   const getList = () => {
     Fire.database()
       .ref(`transaction/${user?.uid}/`)
-      .on("value", (snapshot) => {
-        const dataSnapshot = snapshot.val();
-        const realData = [];
+      .on('value', (snapshot) => {
+        const dataSnapshot = snapshot.val()
+        const realData = []
         if (dataSnapshot) {
           Object.entries(dataSnapshot).map((val) => {
-            realData?.push(val[1]);
-          });
-          setData(realData);
+            realData?.push(val[1])
+          })
+          setData(realData)
         }
-      });
-  };
+      })
+  }
 
   return (
     <View style={styles.pages}>
@@ -45,10 +45,10 @@ const ListTransaction = () => {
         <TransactionList data={data} />
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default ListTransaction;
+export default ListTransaction
 
 const styles = StyleSheet.create({
   pages: {
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
-});
+})
