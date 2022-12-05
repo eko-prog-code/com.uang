@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking
 } from "react-native";
 import CurrencyFormatter from "react-native-currency-formatter";
 import { Gap, Header, TenorCard, UserInvestationCard } from "../../components";
@@ -85,7 +86,7 @@ const FinancePage = () => {
       <View style={{ paddingHorizontal: 16 }}>
         <View style={styles.userInvestationTitleContainer}>
           <Text style={styles.userInvestationTitle}>
-            Alo Care User Investasi
+            Investasi
           </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate("UserInvestation")}
@@ -126,13 +127,7 @@ const FinancePage = () => {
         </ScrollView>
       </MemoView>
       <MemoTouchableOpacity
-        onPress={() => {
-          navigation.navigate("Chatting", {
-            data: ourstaffs[0]?.data,
-            chatContent: `Saya ingin mengajukan Pinjaman`,
-          });
-        }}
-      >
+        onPress={() => Linking.openURL('https://wa.me/+62895600394345')}>
         <Image
           source={require("../../assets/dummy/pinjam.png")}
           style={{ width: 45, height: 42, marginLeft: 10 }}

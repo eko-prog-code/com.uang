@@ -94,7 +94,7 @@ const VideoPage = () => {
        <Gap height={20} />
       <Header onPress={() => navigation.goBack()} title="Video" />
       <Button
-        title="Lihat Video Berbayar dan Meeting Room"
+        title="Edu Tech Berbayar"
         onPress={() => setModalPassword(true)}
         style={styles.BtnVideoBerbayar}
       />
@@ -113,13 +113,13 @@ const VideoPage = () => {
           setModalPassword(false);
         }}
       />
-      <Text style={styles.sectionLabel}>Alo Care Product Digital</Text>
+      <Text style={styles.sectionLabel}>Indonesia Info Terbaru</Text>
       <View>
         <TextInput
           onChangeText={(val) => handleNewsFilter(val)}
           selectTextOnFocus
           style={styles.searchInput}
-          placeholder="Cari Video"
+          placeholder="Cari Info Terbaru"
         />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -168,6 +168,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   BtnVideoBerbayar: {
-    borderRadius: 200
+    borderRadius: 200,
   },
 });

@@ -1,11 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.aloocare.alocare">
+  package="com.uang">
 
     <uses-permission android:name="android.permission.INTERNET" />
      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
       android:name=".MainApplication"
@@ -14,8 +15,13 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+       <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5777911853365634~7206358059"/>
       <activity
         android:name=".MainActivity"
+         android:enabled="true" 
+        android:exported="true"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
         android:launchMode="singleTask"
@@ -28,17 +34,17 @@
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_name"
-                android:value="alocaremobile"/>
+                android:value="uang"/>
       <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_description"
-                  android:value="Alocare Mobile"/>
+                  android:value="UANG Mobile App"/>
       <meta-data 
       android:name="com.dieam.reactnativepushnotification.notification_foreground"
       android:value="true"/>
       <meta-data 
       android:name="com.dieam.reactnativepushnotification.notification_color"
       android:resource="@color/white"/>
-      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
-      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
+      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" android:enabled="true" android:exported="false" />
+      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" android:enabled="true" android:exported="false" />
       <!-- <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
           <intent-filter>
               <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -49,8 +55,7 @@
      
 
       <service
-            android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
-            android:exported="false" >
+            android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService" android:enabled="true" android:exported="true">
           <intent-filter>
               <action android:name="com.google.firebase.MESSAGING_EVENT" />
           </intent-filter>

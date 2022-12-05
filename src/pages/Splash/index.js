@@ -28,8 +28,8 @@ const Splash = ({ navigation }) => {
         }
       }, 3000);
       PushNotification.localNotification({
-        channelId: "alocaremobile",
-        message: "(Finance, Education, E-Commerce, Web Referensi", // (required)
+        channelId: "uang",
+        message: "Temukan Uang Mu", // (required)
         date: new Date(Date.now() + 1 * 1000), // in 60 secs
       });
     });
@@ -40,8 +40,8 @@ const Splash = ({ navigation }) => {
   return (
     <View style={styles.page}>
       <ILLogo />
-      <Text style={styles.title}>Alo Care</Text>
-      <Text style={styles.line}>Kami Peduli Anda Sukses</Text>
+      <Text style={styles.title}>UANG</Text>
+      <Text style={styles.line}>Portal Digital, Temukan Uang Mu</Text>
     </View>
   );
 };

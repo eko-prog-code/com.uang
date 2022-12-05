@@ -30,8 +30,15 @@ const UserProfile = ({navigation, route}) => {
       )}
       <Gap height={14} />
       <List
+        name="Buat Akun"
+        desc="Daftar Akun, untuk memperoleh Akses Penuh"
+        type="next"
+        icon="edit-profile"
+        onPress={() => navigation.navigate('Register')}
+      />
+      <List
         name="Edit Profile"
-        desc="Last Update Yesterday"
+        desc="Update Foto biar kekinian"
         type="next"
         icon="edit-profile"
         onPress={() => navigation.navigate('UpdateProfile')}

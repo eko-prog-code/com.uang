@@ -1,4 +1,4 @@
-import ILLogo from './alo.svg';
+import ILLogo from './uang.svg';
 import ILGetStarted from './get-started.png';
 import ILNullPhoto from './null-photo.png';
 import ILCatPerawat from './cat-perawat.svg';

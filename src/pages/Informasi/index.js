@@ -38,8 +38,8 @@ const Informasi = ({navigation}) => {
   return (
     <View style={styles.page}>
       <ImageBackground source={ILOfficesBG} style={styles.background}>
-        <Text style={styles.title}>Layanan</Text>
-        <Text style={styles.desc}>Alo Care</Text>
+        <Text style={styles.title}>List Produk & Layanan</Text>
+        <Text style={styles.desc}>UANG</Text>
       </ImageBackground>
       <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>

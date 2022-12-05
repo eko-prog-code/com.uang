@@ -11,7 +11,7 @@ const UserInvestationCard = ({ item, type }) => {
       <View style={styles.container}>
         <View style={styles.userInvestationTitleContainer}>
           <ILLogo height={36} width={36} />
-          <Text style={styles.userInvestationTitle}>Reseller Produk Alo Care</Text>
+          <Text style={styles.userInvestationTitle}>Reseller</Text>
         </View>
         <Gap height={24} />
         <View style={{ paddingHorizontal: 8 }}>
@@ -32,7 +32,7 @@ const UserInvestationCard = ({ item, type }) => {
     <View style={styles.container}>
       <View style={styles.userInvestationTitleContainer}>
         <ILLogo height={36} width={36} />
-        <Text style={styles.userInvestationTitle}>Alo Care User Investasi</Text>
+        <Text style={styles.userInvestationTitle}>Investasi</Text>
       </View>
       <Gap height={24} />
       <View style={{ paddingHorizontal: 8 }}>

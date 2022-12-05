@@ -165,7 +165,7 @@ const ChattingGroup = ({ navigation, route }) => {
 
   const getImage = () => {
     launchImageLibrary(
-      { quality: 0.5, includeBase64: true, maxWidth: 480, maxHeight: 240 },
+      { quality: 0.5, includeBase64: true, type: 'image/jpeg', maxWidth: 200, maxHeight: 200 },
       (response) => {
         if (response.didCancel || response.error) {
           showError("oops, sepertinya anda tidak memilih foto nya?");
@@ -181,8 +181,8 @@ const ChattingGroup = ({ navigation, route }) => {
     <View style={styles.page}>
       <Header
         type='dark-profile'
-        title={"Komunitas Alo Care"}
-        desc={"Alo Care"}
+        title={"Komunitas UANG"}
+        desc={"Karyamu akan menempati bagian tersendiri dalam hidup mu"}
         onPress={() => navigation.goBack()}
       />
       <View style={styles.content}>

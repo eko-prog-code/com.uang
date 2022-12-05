@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { launchImageLibrary } from "react-native-image-picker";
+import ImagePicker from 'react-native-image-crop-picker';
 import { ILNullPhoto } from "../../assets";
 import { Button, Gap, Header, Input, Profile } from "../../components";
 import { Fire } from "../../config";
@@ -79,19 +79,24 @@ const UpdateProfile = ({ navigation }) => {
   };
 
   const getImage = () => {
-    launchImageLibrary(
-      { quality: 0.5, maxWidth: 200, maxHeight: 200, includeBase64: true },
-      (response) => {
-        if (response.didCancel || response.error) {
-          showError("oops, sepertinya anda tidak memilih foto nya?");
-        } else {
-          const source = { uri: response.uri };
-          setPhotoForDB(`data:${response.type};base64, ${response.base64}`);
-          setPhoto(source);
-        }
-      }
-    );
-  };
+    ImagePicker.openCamera({
+      width: 400,
+      height: 300,
+      cropping: true,
+      includeBase64: true,
+    }) 
+    .then(image => {
+      const source = {uri: image.path};
+
+      setPhotoForDB(`data:${image.mime};base64,${image.data}`);
+      setPhoto(source);
+      setHasPhoto(true);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
   return (
     <View style={styles.page}>
       <Header title="Edit Profile" onPress={() => navigation.goBack()} />

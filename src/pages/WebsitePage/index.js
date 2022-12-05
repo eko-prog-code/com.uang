@@ -40,9 +40,8 @@ const WebsitePage = () => {
       });
   };
 
-  const openWeb = (url) => {
-    Linking.openURL("https://" + url);
-  };
+  const openWeb = url => {
+    navigation.navigate('WebviewPage', {link: 'https://' + url}); }
 
   const renderWeb = () => {
     if (web.length > 0) {

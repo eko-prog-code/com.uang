@@ -44,7 +44,7 @@ const ModalPassword = ({ visible, onSubmit, onClose, type }) => {
           <Input
             onChangeText={(val) => setPassword(val)}
             value={password}
-            label="Password Video Berbayar"
+            label="Password"
             secureTextEntry
             placeholder="Masukkan password"
           />

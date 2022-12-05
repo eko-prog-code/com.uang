@@ -10,13 +10,11 @@ const GetStarted = ({navigation}) => {
       <View>
         <ILLogo />
         <Text style={styles.title}>
-         Alo Care aplikasi Mobile Karya anak Indonesia
+         UANG Mobile App
         </Text>
-        <Text style={styles.body}>
-         untuk peningkatan kualitas hidup
-        </Text>
+
         <Text style={styles.fitur}>
-         Fitur Baru: Investasi Finansial, Investasi Digital, Video Edukasi, dan Meet Room 
+        Pastikan Udah Punya Akun ya...
         </Text>
       </View>
       <View>

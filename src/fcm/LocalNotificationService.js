@@ -49,9 +49,9 @@ class LocalNotificationService {
   createChannelManagement = () => {
     PushNotification.createChannel(
       {
-        channelId: "alocaremobile", // (required)
-        channelName: "alocaremobile", // (required)
-        channelDescription: "Alocare Mobile", // (optional) default: undefined.
+        channelId: "uang", // (required)
+        channelName: "uang", // (required)
+        channelDescription: "UANG Mobile App", // (optional) default: undefined.
         playSound: true, // (optional) default: true
         soundName: "my_sound", // (optional) See `soundName` parameter of `localNotification` function
         importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
@@ -72,7 +72,7 @@ class LocalNotificationService {
       /* iOS and Android properties */
       ...this.buildIOSNotification(id, title, message, data, options),
       /* iOS and Android properties */
-      channelId: "alocaremobile",
+      channelId: "uang",
       title: title || "",
       message: message || "",
       playSound: options?.playSound || true,

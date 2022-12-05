@@ -27,6 +27,12 @@ import {
   VideoPage,
   ProductPage,
   WebsitePage,
+  WebviewPage,
+  DrugBerbayar,
+  AdultDrug,
+  PediatricDrug, 
+  DermaDrug, 
+  ToothDrug,
 } from "../pages";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigator } from "../components";
@@ -47,32 +53,7 @@ const MainApp = () => {
 
 export default function Router() {
   return (
-    <Stack.Navigator initialRouteName="Splash">
-      <Stack.Screen
-        name="Splash"
-        component={Splash}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="GetStarted"
-        component={GetStarted}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Register"
-        component={Register}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="UploadPhoto"
-        component={UploadPhoto}
-        options={{ headerShown: false }}
-      />
+    <Stack.Navigator initialRouteName="MainApp"> 
       <Stack.Screen
         name="MainApp"
         component={MainApp}
@@ -161,6 +142,61 @@ export default function Router() {
       <Stack.Screen
         name="WebsitePage"
         component={WebsitePage}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="WebviewPage"
+        component={WebviewPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DrugBerbayar"
+        component={DrugBerbayar}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="AdultDrug"
+        component={AdultDrug}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="PediatricDrug"
+        component={PediatricDrug}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DermaDrug"
+        component={DermaDrug}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ToothDrug"
+        component={ToothDrug}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Splash"
+        component={Splash}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="GetStarted"
+        component={GetStarted}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UploadPhoto"
+        component={UploadPhoto}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

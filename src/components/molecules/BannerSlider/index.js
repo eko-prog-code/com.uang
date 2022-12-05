@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
   },
   slider: {
     borderRadius: 10,
-    width: responsiveWidth(420),
-    marginRight: 10,
+    width: responsiveWidth(400),
+    marginRight: 30,
   },
   dotStyle: {
     width: 10,

@@ -24,6 +24,12 @@ import FinancePage from "./FinancePage";
 import VideoPage from "./VideoPage";
 import ProductPage from "./ProductPage";
 import WebsitePage from "./WebsitePage";
+import WebviewPage from './WebviewPage';
+import DrugBerbayar from './DrugBerbayar';
+import AdultDrug from './AdultDrug';
+import PediatricDrug from './PediatricDrug';
+import DermaDrug from './DermaDrug';
+import ToothDrug from './ToothDrug';
 
 export {
   Splash,
@@ -52,4 +58,10 @@ export {
   VideoPage,
   ProductPage,
   WebsitePage,
+  WebviewPage,
+  DrugBerbayar,
+  AdultDrug,
+  PediatricDrug, 
+  DermaDrug, 
+  ToothDrug,
 };

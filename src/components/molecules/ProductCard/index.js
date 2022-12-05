@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking
 } from "react-native";
 import { useSelector } from "react-redux";
 import { Button } from "../..";
@@ -143,7 +144,7 @@ const ProductCard = ({
           {item?.desc}
         </Text>
         <View style={{ marginTop: 16 }}>
-          <Button onPress={() => onPress && onPress(item)} title="Beli" />
+          <Button  onPress={() => Linking.openURL('https://wa.me/+62895600394345')} title="Beli" />
         </View>
       </View>
     </View>

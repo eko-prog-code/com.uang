@@ -11,6 +11,12 @@ import {
 import { CircleStory, Gap, List } from "../../components";
 import { Fire } from "../../config";
 import { colors, fonts, getData, showError } from "../../utils";
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob-next';
 
 const Messages = ({ navigation }) => {
   const [user, setUser] = useState({});
@@ -129,57 +135,21 @@ const Messages = ({ navigation }) => {
       <Gap height={20} />
         <ScrollView>
           <Text style={styles.title}>Pesan</Text>
-          <Text style={styles.subtitle}>Komunitas Alo Care</Text>
+          <Text style={styles.subtitle}>Daftar Akun terlebih dahulu, untuk masuk Chat Group</Text>
+          <Text style={styles.subtitle}>Chat Gruop</Text>
           <View>
             <List
               icon="logo"
-              name={"Komunitas Alo Care"}
-              desc={"Chat bersama Komunitas Alo Care"}
+              name={"Komunitas UANG"}
+              desc={"Partnership ~ share, inspiring & innovation"}
               onPress={() => navigation.navigate("ChattingGroup")}
             />
           </View>
-          <View style={{ paddingHorizontal: 16 }}>
-            <Gap height={16} />
-            <TextInput
-              onChangeText={(val) => handleFilter(val)}
-              selectTextOnFocus
-              style={styles.searchInput}
-              placeholder="Cari Staff Alo Care--Masukan Alamat Terdekat"
-            />
-          </View>
-          <View style={{ marginVertical: 8 }}>
-            {loading ? (
-              <ActivityIndicator size={32} color={colors.primary} />
-            ) : (
-              <FlatList
-                contentContainerStyle={{ paddingHorizontal: 16 }}
-                horizontal
-                keyExtractor={(_, index) => index.toString()}
-                data={userList}
-                renderItem={({ item }) => <CircleStory data={item?.data} />}
-                ItemSeparatorComponent={() => <Gap width={8} />}
-              />
-            )}
-          </View>
-          <Text style={styles.subtitle}>Personal Chat</Text>
-
-          {historyChat.map((chat) => {
-            const who = chat?.detailOurstaff ? "detailOurstaff" : "detailUsers";
-            const dataOurstaff = {
-              id: chat?.[who]?.uid,
-              data: chat?.[who],
-            };
-            return (
-              <List
-                key={chat?.id}
-                profile={{ uri: chat?.[who]?.photo }}
-                name={chat?.[who]?.fullName}
-                desc={chat?.lastContentChat}
-                type={chat?.type}
-                onPress={() => navigation.navigate("Chatting", dataOurstaff)}
-              />
-            );
-          })}
+          <AdMobBanner
+          adSize="fullBanner"
+          adUnitID="ca-app-pub-5777911853365634/4841663564"
+          onAdFailedToLoad={error => console.error(error)}
+        />
         </ScrollView>
       </View>
     </View>

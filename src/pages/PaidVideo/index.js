@@ -67,12 +67,12 @@ const PaidVideo = ({ navigation }) => {
   return (
     <View style={styles.pages}>
        <Gap height={20} />
-      <Header onPress={() => navigation.goBack()} title="Video Berbayar" />
+      <Header onPress={() => navigation.goBack()} title="Video Belajar" />
       <View style={{ padding: 20, paddingTop: 8 }}>
         <Input
           onChangeText={(val) => handleFilter(val)}
-          label="Cari Video / Meeting Room"
-          placeholder="Masukkan judul atau Nama Meeting Room"
+          label="Cari Video"
+          placeholder="Masukkan judul"
         />
       </View>
       {loading ? (

@@ -330,7 +330,7 @@ const ProductPage = () => {
         <View style={{ paddingHorizontal: 16, marginBottom: 40 }}>
           <View style={styles.userInvestationTitleContainer}>
             <Text style={styles.userInvestationTitle}>
-              Reseller Produk Alo Care
+              Reseller 
             </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("MemberAlocare")}

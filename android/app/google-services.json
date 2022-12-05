@@ -1,92 +1,34 @@
 {
   "project_info": {
-    "project_number": "653483800435",
-    "firebase_url": "https://ramah-9ef47.firebaseio.com",
-    "project_id": "ramah-9ef47",
-    "storage_bucket": "ramah-9ef47.appspot.com"
+    "project_number": "367079178934",
+    "firebase_url": "https://uang-1cd90-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "uang-1cd90",
+    "storage_bucket": "uang-1cd90.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:653483800435:android:7e9221fb5bceaaca78f706",
+        "mobilesdk_app_id": "1:367079178934:android:13839f83e6c15b25699c17",
         "android_client_info": {
-          "package_name": "com.adminac"
+          "package_name": "com.uang"
         }
       },
       "oauth_client": [
         {
-          "client_id": "653483800435-cogo949mjhfql9nj5s3mj0n88qdqd64a.apps.googleusercontent.com",
+          "client_id": "367079178934-1nmlh540vn64euamdoa4d1kai93p5n7o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAcigtRanuPxRXvtTB70niKk9bjEx65o7I"
+          "current_key": "AIzaSyB9ZHi7evXofjyyxv4I1nvgAm3Elq4pl3M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "653483800435-cogo949mjhfql9nj5s3mj0n88qdqd64a.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:653483800435:android:39e273192e16435278f706",
-        "android_client_info": {
-          "package_name": "com.alocare"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "653483800435-cogo949mjhfql9nj5s3mj0n88qdqd64a.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAcigtRanuPxRXvtTB70niKk9bjEx65o7I"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "653483800435-cogo949mjhfql9nj5s3mj0n88qdqd64a.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:653483800435:android:9087291532a42f6678f706",
-        "android_client_info": {
-          "package_name": "com.aloocare.alocare"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "653483800435-cogo949mjhfql9nj5s3mj0n88qdqd64a.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAcigtRanuPxRXvtTB70niKk9bjEx65o7I"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "653483800435-cogo949mjhfql9nj5s3mj0n88qdqd64a.apps.googleusercontent.com",
+              "client_id": "367079178934-1nmlh540vn64euamdoa4d1kai93p5n7o.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

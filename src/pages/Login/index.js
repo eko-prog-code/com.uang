@@ -40,7 +40,7 @@ const Login = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Gap height={40} />
         <ILLogo />
-        <Text style={styles.title}>Masuk dan nikmati layanan Kami</Text>
+        <Text style={styles.title}>Login</Text>
         <Input
           label="Email"
           value={form.email}

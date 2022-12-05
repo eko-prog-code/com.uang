@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { launchImageLibrary } from "react-native-image-picker";
+import launchImageLibrary from 'react-native-image-crop-picker';
 import { ChatItem, Header, InputChat } from "../../components";
 import { Fire } from "../../config";
 import {

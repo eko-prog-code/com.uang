@@ -18,7 +18,9 @@ import UserInvestationCard from "./UserInvestationCard";
 import ModalInvestation from "./ModalInvestation";
 import TransactionList from "./TransactionList";
 import ModalPassword from "./ModalPassword";
+import ModalDrug from "./ModalDrug";
 import ModalPoint from "./ModalPoint";
+import ProdukCard from "./ProdukCard";
 
 export {
   Header,
@@ -42,4 +44,6 @@ export {
   TransactionList,
   ModalPassword,
   ModalPoint,
+  ModalDrug,
+  ProdukCard
 };

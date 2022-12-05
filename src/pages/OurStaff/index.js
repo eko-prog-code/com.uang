@@ -23,6 +23,8 @@ import {
   Gap,
   HomeProfile,
   ModalInvestation,
+  Button,
+  ModalDrug,
   ModalPassword,
   ModalPoint,
   NewsItem,
@@ -45,7 +47,12 @@ import {
   useForm,
   useFormSoul,
 } from "../../utils";
-import codePush from "react-native-code-push";
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob-next';
 
 const MemoView = memo(View);
 const MemoTouchableOpacity = memo(TouchableOpacity);
@@ -57,7 +64,7 @@ const CATEGORY_DATA = [
     page: "FinancePage",
   },
   {
-    title: "Video Edukasi & Meeting Room",
+    title: "Video Edukasi",
     image: require("../../assets/images/video.png"),
     page: "VideoPage",
   },
@@ -83,6 +90,7 @@ const OurStaff = ({ navigation }) => {
   const [banners, setBanners] = useState([]);
   const [runningText, setRunningText] = useState(null);
   const [modalInvestation, setModalInvestation] = useState(false);
+  const [drugModal, setDrugModal] = useState(false);
 
   const { token } = useSelector((state) => state.fcm);
   const [profile, setProfile] = useState({
@@ -325,7 +333,7 @@ const OurStaff = ({ navigation }) => {
             }}
             activeOpacity={0.8}
           >
-            <Text style={styles.headerTitle}>ALO CARE</Text>
+            <Text style={styles.headerTitle}>UANG</Text>
           </TouchableOpacity>
         </View>
         <ScrollView ref={pagesScrollRef} showsVerticalScrollIndicator={false}>
@@ -336,7 +344,6 @@ const OurStaff = ({ navigation }) => {
                 profile={profile}
                 onPress={() => navigation.navigate("UserProfile", profile)}
               />
-
               <View style={styles.rowCenter}>
                 <TouchableOpacity
                   onPress={() =>
@@ -352,13 +359,7 @@ const OurStaff = ({ navigation }) => {
                 <View style={styles.verticalSeparator} />
                 <View style={styles.rightContainer}>
                   <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("Chatting", {
-                        data: ourstaffs[0]?.data,
-                        chatContent: `Saya ingin menambah deposite E-wallet`,
-                      });
-                    }}
-                  >
+                   onPress={() => Linking.openURL('https://wa.me/+62895600394345')}>
                     <Image
                       source={require("../../assets/dummy/dompet.png")}
                       style={{ width: 45, height: 42 }}
@@ -399,44 +400,25 @@ const OurStaff = ({ navigation }) => {
                 </View>
               ) : null}
             </MemoView>
+            <AdMobBanner
+          adSize="fullBanner"
+          adUnitID="ca-app-pub-5777911853365634/4841663564"
+          onAdFailedToLoad={error => console.error(error)}
+        />
 
-            <Text style={styles.welcome}>Chat Staff dan Layanan Kami</Text>
+            <Text style={styles.welcome}>Health Tech by "UANG"</Text>
+            <View>
+            <Button
+              title="Referensi Resep Obat"
+              onPress={() => setDrugModal(true)}
+              style={styles.BtnVideoBerbayar}
+              />
+            </View>
+            
           </MemoView>
-          <MemoView style={styles.wrapperScroll}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={styles.category}>
-                <Gap width={32} />
-                {categoryOurstaff.map((item) => {
-                  return (
-                    <OurStaffCategory
-                      key={`category-${item.id}`}
-                      category={item.category}
-                      onPress={() =>
-                        navigation.navigate("ChooseOurStaff", item)
-                      }
-                    />
-                  );
-                })}
-                <Gap width={22} />
-              </View>
-            </ScrollView>
-          </MemoView>
+            
           <MemoView style={styles.wrapperSection}>
-            <Text style={styles.sectionLabel}>Top Our Staff</Text>
-            {ourstaffs.map((ourstaff) => {
-              return (
-                <RatedOurStaff
-                  key={ourstaff.id}
-                  name={ourstaff.data.fullName}
-                  desc={ourstaff.data.profession}
-                  avatar={{ uri: ourstaff.data.photo }}
-                  onPress={() =>
-                    navigation.navigate("OurStaffProfile", ourstaff)
-                  }
-                />
-              );
-            })}
-            <Text style={styles.sectionLabel}>Fitur Alo Care</Text>
+            <Text style={styles.sectionLabel}>Kategori</Text>
             <MemoView style={styles.categoryContainer}>
               {CATEGORY_DATA.map((item, index) => (
                 <TouchableOpacity
@@ -472,6 +454,13 @@ const OurStaff = ({ navigation }) => {
         onClose={() => setModalInvestation(false)}
       />
 
+      <ModalDrug
+        visible={drugModal}
+        profile={userHomeData}
+        onSubmit={() => setDrugModal(false)}
+        onClose={() => setDrugModal(false)}
+      />
+
       <ModalPoint
         image={pointImage}
         point={userHomeData?.point_user}
@@ -482,7 +471,7 @@ const OurStaff = ({ navigation }) => {
   );
 };
 
-export default codePush(OurStaff);
+export default OurStaff;
 
 const styles = StyleSheet.create({
   shadow: {
