@@ -116,4 +116,8 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
   },
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> 2fc9df1e684174e35146c2eac8c70950a0e23c36

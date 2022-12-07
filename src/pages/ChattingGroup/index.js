@@ -166,11 +166,18 @@ const ChattingGroup = ({ navigation, route }) => {
   const getImage = () => {
     launchImageLibrary(
       {
+<<<<<<< HEAD
         quality: 0.5,
         includeBase64: true,
         type: 'image/jpeg',
         maxWidth: 200,
         maxHeight: 200,
+=======
+        quality: 1,
+        includeBase64: true,
+        type: 'image/jpeg',
+        maxWidth: 640, maxHeight: 480
+>>>>>>> 2fc9df1e684174e35146c2eac8c70950a0e23c36
       },
       (response) => {
         if (response.didCancel || response.error) {
@@ -254,4 +261,8 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     textAlign: 'center',
   },
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> 2fc9df1e684174e35146c2eac8c70950a0e23c36

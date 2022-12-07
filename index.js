@@ -11,6 +11,12 @@ import { Provider as StoreProvider } from 'react-redux'
 import 'react-native-gesture-handler'
 import { configureStore, persistor } from './src/redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
+import AppLovinMAX from 'react-native-applovin-max'
+import { applovinSdk } from './src/utils'
+
+AppLovinMAX.initialize(applovinSdk, (configuration) => {
+  console.log('init applovin: ', configuration)
+})
 
 const store = configureStore
 const RenderLoading = () => {

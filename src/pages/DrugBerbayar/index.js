@@ -12,8 +12,14 @@ import {
   RefreshControl,
 } from 'react-native';
 import { Fire } from "../../config";
-import {HeadlineItem, Gap, ProdukCard, Button} from '../../components';
+import {HeadlineItem, Gap, ProdukCard, Button, DrugCard} from '../../components';
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob-next';
 
 const MemoView = memo(View);
 const MemoTouchableOpacity = memo(TouchableOpacity);
@@ -44,8 +50,49 @@ const CATEGORY_DATA = [
 const DrugBerbayar = props => {
   const navigation = useNavigation();
 
+  const [drugs, setDrugs] = useState([]);
+  const [drugsAll, setDrugsAll] = useState([]);
+  const [drugsLoading, setDrugsLoading] = useState(false);
+  const [searchDrugLoading, setSearchDrugLoading] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  useEffect(() => {
+    getDrugs();
+  }, []);
+
+  const getDrugs = () => {
+    Fire.database()
+      .ref('drug')
+      .on('value', res => {
+        setRefreshing(true);
+        const arr = [...res.val()];
+        setDrugs(arr.filter(val => val !== null));
+        setDrugsAll(arr.filter(val => val !== null));
+      });
+    setRefreshing(true);
+    wait(3000).then(() => setRefreshing(false));
+    setSearchDrugLoading(false);
+  };
+
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+
+  const handleDrugsFilter = val => {
+    setSearchDrugLoading(true);
+    let arr = [...drugsAll];
+    var searchRegex = new RegExp(val, 'i');
+    arr = arr.filter(item => searchRegex?.test(item?.title));
+    setDrugs(arr);
+    setTimeout(() => {
+      setSearchDrugLoading(false);
+    }, 1500);
+  };
+
+
   return (
     <View style={styles.page}>
+      <ScrollView>
       <View style={styles.pilihJersey}>
       <Gap height={24} />
       <Text
@@ -94,7 +141,64 @@ const DrugBerbayar = props => {
           ))}
         </MemoView>
       </View>
+      <AdMobBanner
+          adSize="fullBanner"
+          adUnitID="ca-app-pub-5777911853365634/4841663564"
+          onAdFailedToLoad={error => console.error(error)}
+        />
+
+<ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={getDrugs} />
+        }>
+        <View style={styles.colom}>
+          <Text style={styles.row}>CARI OBAT REFERENSI</Text>
+          <View style={styles.imageDok}>
+            <Image
+              source={require('../../assets/images/dokterChat.png')}
+              style={styles.rowCenter}
+            />
+          </View>
+        </View>
+
+        <View style={styles.cariObat}>
+          <TextInput
+            onChangeText={val => handleDrugsFilter(val, drugs)}
+            selectTextOnFocus
+            style={styles.searchInput}
+            placeholder="MASUKAN KELUHAN/ DIAGNOSA"
+            placeholderTextColor="#27AE60"
+          />
+        </View>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{marginTop: 10, paddingHorizontal: 2}}>
+          {searchDrugLoading ? (
+            <ActivityIndicator
+              size="large"
+              color="#FFFFFF"
+              style={{marginTop: 40, marginLeft: 40}}
+            />
+          ) : (
+            drugs?.map((item, index) => (
+              <DrugCard
+                onRemove={() => handleRemoveFavorite(item, drugs)}
+                onAdd={() => handleAddFavorite(item, drugs)}
+                onPress={() => handleBuy(item)}
+                type="drug"
+                key={index}
+                item={item}
+              />
+            ))
+          )}
+        </ScrollView>
+      </ScrollView>
+      </ScrollView>
     </View>
+    
   );
 };
 export default DrugBerbayar;

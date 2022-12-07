@@ -30,6 +30,9 @@ import AdultDrug from './AdultDrug';
 import PediatricDrug from './PediatricDrug';
 import DermaDrug from './DermaDrug';
 import ToothDrug from './ToothDrug';
+import TambahOs from './TambahOs';
+import ListPasien from './ListPasien';
+import EditPasien from './EditPasien'
 
 export {
   Splash,
@@ -64,4 +67,7 @@ export {
   PediatricDrug, 
   DermaDrug, 
   ToothDrug,
+  TambahOs, 
+  ListPasien,
+  EditPasien
 };

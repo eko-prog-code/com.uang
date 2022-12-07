@@ -33,6 +33,9 @@ import {
   PediatricDrug, 
   DermaDrug, 
   ToothDrug,
+  TambahOs, 
+  ListPasien, 
+  EditPasien
 } from "../pages";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigator } from "../components";
@@ -199,6 +202,21 @@ export default function Router() {
         component={UploadPhoto}
         options={{ headerShown: false }}
       />
-    </Stack.Navigator>
+      <Stack.Screen 
+        name="TambahOs" 
+        component={TambahOs}   
+        options={{ headerShown: false }}/>
+
+      <Stack.Screen
+        name="ListPasien"
+        component={ListPasien}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="EditPasien"
+        component={EditPasien}
+        options={{ headerShown: false }}
+      />
+      </Stack.Navigator>
   );
 }

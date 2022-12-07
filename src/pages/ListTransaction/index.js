@@ -61,4 +61,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> 2fc9df1e684174e35146c2eac8c70950a0e23c36
