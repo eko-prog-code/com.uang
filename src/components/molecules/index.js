@@ -21,6 +21,8 @@ import ModalPassword from "./ModalPassword";
 import ModalDrug from "./ModalDrug";
 import ModalPoint from "./ModalPoint";
 import ProdukCard from "./ProdukCard";
+import DrugCard from "./DrugCard";
+import DaftarPasien from "./DaftarPasien"
 
 export {
   Header,
@@ -45,5 +47,7 @@ export {
   ModalPassword,
   ModalPoint,
   ModalDrug,
-  ProdukCard
+  ProdukCard,
+  DrugCard, 
+  DaftarPasien
 };

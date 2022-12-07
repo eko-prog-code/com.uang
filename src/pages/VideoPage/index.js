@@ -9,11 +9,18 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Dimensions
 } from "react-native";
-import { Header, ModalPassword, NewsItem, VideoPlayer, Gap } from "../../components";
+import { Header, ModalPassword, NewsItem, VideoPlayer, Gap, ApplovinBanner, } from "../../components";
 import { Button } from "../../components";
 import { Fire } from "../../config";
 import { colors, fonts, showError } from "../../utils";
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob-next';
 
 const MemoTouchableOpacity = memo(TouchableOpacity);
 
@@ -24,8 +31,26 @@ const VideoPage = () => {
   const [videoLink, setVideoLink] = useState("");
   const [videoModal, setVideoModal] = useState(false);
   const [modalPassword, setModalPassword] = useState(false);
+  const [textHeadline, setTextHeadline] = useState([]);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getTextHeadline();
+  }, []);
+
+  const getTextHeadline = () => {
+    Fire.database()
+      .ref('textHeadline')
+      .once('value')
+      .then(res => {
+        setTextHeadline(res?.val());
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
 
   useEffect(() => {
     getNews();
@@ -93,6 +118,12 @@ const VideoPage = () => {
     <SafeAreaView style={styles.pages}>
        <Gap height={20} />
       <Header onPress={() => navigation.goBack()} title="Video" />
+      <AdMobBanner
+          adSize="fullBanner"
+          adUnitID="ca-app-pub-5777911853365634/4841663564"
+          onAdFailedToLoad={error => console.error(error)}
+        />
+      <Text>Password Edu Tech Berbayar~Please Insert or type= uang</Text>
       <Button
         title="Edu Tech Berbayar"
         onPress={() => setModalPassword(true)}
@@ -113,7 +144,8 @@ const VideoPage = () => {
           setModalPassword(false);
         }}
       />
-      <Text style={styles.sectionLabel}>Indonesia Info Terbaru</Text>
+      <ApplovinBanner width={Dimensions.get('screen').width - 30} />
+      <Text style={styles.sectionLabel}>{textHeadline}</Text>
       <View>
         <TextInput
           onChangeText={(val) => handleNewsFilter(val)}

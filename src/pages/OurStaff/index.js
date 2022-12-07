@@ -16,9 +16,11 @@ import {
 } from "react-native";
 import CurrencyFormatter from "react-native-currency-formatter";
 import TextTicker from "react-native-text-ticker";
+import Carousel from '../Carousel';
 import { useSelector } from "react-redux";
 import { IconFavoriteActive, ILLogo, ILNullPhoto } from "../../assets";
 import {
+  ApplovinBanner,
   BannerSlider,
   Gap,
   HomeProfile,
@@ -53,6 +55,7 @@ import {
   PublisherBanner,
   AdMobRewarded,
 } from 'react-native-admob-next';
+import RekamMedis from '../RekamMedis'
 
 const MemoView = memo(View);
 const MemoTouchableOpacity = memo(TouchableOpacity);
@@ -376,7 +379,7 @@ const OurStaff = ({ navigation }) => {
               </View>
             </MemoView>
 
-            {banners?.length > 0 ? <BannerSlider data={banners} /> : null}
+            <Carousel />
 
             <MemoView style={styles.runningTextContainer}>
               <Image
@@ -445,7 +448,9 @@ const OurStaff = ({ navigation }) => {
             </MemoView>
           </MemoView>
 
+          <RekamMedis navigation={navigation} />
           <Gap height={30} />
+          <ApplovinBanner width={Dimensions.get('screen').width - 30} />
         </ScrollView>
       </View>
 
@@ -512,8 +517,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   runningTextLogo: {
-    height: 68,
-    width: 68,
+    height: 50,
+    width: 50,
     marginRight: -7,
     marginLeft: -16
   },

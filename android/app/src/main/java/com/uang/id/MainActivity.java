@@ -1,4 +1,4 @@
-package com.uang;
+package com.uang.id;
 
 import com.facebook.react.ReactActivity;
 

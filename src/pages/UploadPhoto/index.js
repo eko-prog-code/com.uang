@@ -1,51 +1,53 @@
-import React, { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { launchImageLibrary } from "react-native-image-picker";
-import { IconAddPhoto, IconRemovePhoto, ILNullPhoto } from "../../assets";
-import { Button, Gap, Header, Link } from "../../components";
-import { Fire } from "../../config";
-import { colors, fonts, showError, storeData } from "../../utils";
+import React, { useState } from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { launchImageLibrary } from 'react-native-image-picker'
+import { IconAddPhoto, IconRemovePhoto, ILNullPhoto } from '../../assets'
+import { Button, Gap, Header, Link } from '../../components'
+import { Fire } from '../../config'
+import { colors, fonts, showError, storeData } from '../../utils'
 
 const UploadPhoto = ({ navigation, route }) => {
-  let params = route.params;
-  const { fullName, profession, uid } = route.params;
-  const [photoForDB, setPhotoForDB] = useState("");
-  const [hasPhoto, setHasPhoto] = useState(false);
-  const [photo, setPhoto] = useState(ILNullPhoto);
+  let params = route.params
+  const { fullName, profession, uid } = route.params
+  const [photoForDB, setPhotoForDB] = useState('')
+  const [hasPhoto, setHasPhoto] = useState(false)
+  const [photo, setPhoto] = useState(ILNullPhoto)
   const getImage = () => {
     launchImageLibrary(
       { quality: 0.5, maxWidth: 200, maxHeight: 200, includeBase64: true },
       (response) => {
         if (response.didCancel || response.error) {
-          showError("oops, sepertinya anda tidak memilih foto nya?");
+          showError('oops, sepertinya anda tidak memilih foto nya?')
         } else {
-          const source = { uri: response.uri };
+          const source = { uri: response.assets[0].uri }
 
-          setPhotoForDB(`data:${response.type};base64, ${response?.base64}`);
-          setPhoto(source);
-          setHasPhoto(true);
+          setPhotoForDB(
+            `data:${response.assets[0].type};base64, ${response.assets[0].base64}`
+          )
+          setPhoto(source)
+          setHasPhoto(true)
         }
       }
-    );
-  };
+    )
+  }
 
   const uploadAndContinue = () => {
     Fire.database()
-      .ref("users/" + uid + "/")
-      .update({ photo: photoForDB });
+      .ref('users/' + uid + '/')
+      .update({ photo: photoForDB })
 
-    let data = params;
-    let profile = {};
-    Object.assign(profile, data);
-    Object.assign(profile, { photo: photoForDB });
+    let data = params
+    let profile = {}
+    Object.assign(profile, data)
+    Object.assign(profile, { photo: photoForDB })
     // data.photo = photoForDB;
-    storeData("user", profile);
+    storeData('user', profile)
 
-    navigation.replace("MainApp");
-  };
+    navigation.replace('MainApp')
+  }
   return (
     <View style={styles.page}>
-      <Header title="Upload Photo" />
+      <Header title='Upload Photo' />
       <View style={styles.content}>
         <View style={styles.profile}>
           <TouchableOpacity style={styles.avatarWrapper} onPress={getImage}>
@@ -59,23 +61,23 @@ const UploadPhoto = ({ navigation, route }) => {
         <View>
           <Button
             disable={!hasPhoto}
-            title="Upload and Continue"
+            title='Upload and Continue'
             onPress={uploadAndContinue}
           />
           <Gap height={30} />
           <Link
-            title="Skip for this"
-            align="center"
+            title='Skip for this'
+            align='center'
             size={16}
-            onPress={() => navigation.replace("MainApp")}
+            onPress={() => navigation.replace('MainApp')}
           />
         </View>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default UploadPhoto;
+export default UploadPhoto
 
 const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: colors.white },
@@ -83,12 +85,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     paddingBottom: 64,
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   profile: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   avatar: { width: 110, height: 110, borderRadius: 110 / 2 },
   avatarWrapper: {
@@ -97,21 +99,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 130 / 2,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  addPhoto: { position: "absolute", bottom: 8, right: 6 },
+  addPhoto: { position: 'absolute', bottom: 8, right: 6 },
   name: {
     fontSize: 24,
     color: colors.text.primary,
     fontFamily: fonts.primary[600],
-    textAlign: "center",
+    textAlign: 'center',
   },
   profession: {
     fontSize: 18,
     fontFamily: fonts.primary.normal,
-    textAlign: "center",
+    textAlign: 'center',
     color: colors.text.secondary,
     marginTop: 4,
   },
-});
+})

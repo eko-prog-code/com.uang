@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.uang",
+    package = "com.uang.id",
 )
 
 android_resource(
     name = "res",
-    package = "com.uang",
+    package = "com.uang.id",
     res = "src/main/res",
 )
 
