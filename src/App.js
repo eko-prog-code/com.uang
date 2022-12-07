@@ -11,6 +11,7 @@ import { localNotificationService } from './fcm/LocalNotificationService'
 import { fcmService } from './fcm/FCMService'
 import firebase from '@react-native-firebase/app'
 import { credentials, config } from './config'
+import { getData } from './utils'
 const MainApp = () => {
   const stateGlobal = useSelector((state) => state)
   const navigationRef = useRef(null)
@@ -36,7 +37,18 @@ const MainApp = () => {
 
 const App = () => {
   const dispatch = useDispatch()
+
+  const getPasien = async () => {
+    const pasien = await getData('pasien')
+
+    dispatch({
+      type: 'UPDATE_PASIEN',
+      data: pasien ?? [],
+    })
+  }
+
   useEffect(() => {
+    getPasien()
     firebase.initializeApp(credentials, config)
     fcmService.register(onRegister, onNotification, onOpenNotification)
     localNotificationService.createChannelManagement()

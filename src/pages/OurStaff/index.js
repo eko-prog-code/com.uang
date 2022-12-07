@@ -1,6 +1,6 @@
-import AsyncStorage from "@react-native-community/async-storage";
-import { useFocusEffect } from "@react-navigation/core";
-import React, { useEffect, useState, useRef, memo, useCallback } from "react";
+import AsyncStorage from '@react-native-community/async-storage'
+import { useFocusEffect } from '@react-navigation/core'
+import React, { useEffect, useState, useRef, memo, useCallback } from 'react'
 import {
   ActivityIndicator,
   Dimensions,
@@ -13,12 +13,12 @@ import {
   TouchableOpacity,
   View,
   StatusBar,
-} from "react-native";
-import CurrencyFormatter from "react-native-currency-formatter";
-import TextTicker from "react-native-text-ticker";
-import Carousel from '../Carousel';
-import { useSelector } from "react-redux";
-import { IconFavoriteActive, ILLogo, ILNullPhoto } from "../../assets";
+} from 'react-native'
+import CurrencyFormatter from 'react-native-currency-formatter'
+import TextTicker from 'react-native-text-ticker'
+import Carousel from '../Carousel'
+import { useSelector } from 'react-redux'
+import { IconFavoriteActive, ILLogo, ILNullPhoto } from '../../assets'
 import {
   ApplovinBanner,
   BannerSlider,
@@ -37,8 +37,8 @@ import {
   UserInvestationCard,
   VideoPlayer,
   WebItem,
-} from "../../components";
-import { Fire } from "../../config";
+} from '../../components'
+import { Fire } from '../../config'
 import {
   colors,
   filterWishlistProduct,
@@ -48,102 +48,102 @@ import {
   storeData,
   useForm,
   useFormSoul,
-} from "../../utils";
+} from '../../utils'
 import {
   AdMobBanner,
   AdMobInterstitial,
   PublisherBanner,
   AdMobRewarded,
-} from 'react-native-admob-next';
+} from 'react-native-admob-next'
 import RekamMedis from '../RekamMedis'
 
-const MemoView = memo(View);
-const MemoTouchableOpacity = memo(TouchableOpacity);
+const MemoView = memo(View)
+const MemoTouchableOpacity = memo(TouchableOpacity)
 
 const CATEGORY_DATA = [
   {
-    title: "Finance",
-    image: require("../../assets/images/finance.png"),
-    page: "FinancePage",
+    title: 'Finance',
+    image: require('../../assets/images/finance.png'),
+    page: 'FinancePage',
   },
   {
-    title: "Video Edukasi",
-    image: require("../../assets/images/video.png"),
-    page: "VideoPage",
+    title: 'Video Edukasi',
+    image: require('../../assets/images/video.png'),
+    page: 'VideoPage',
   },
   {
-    title: "Product",
-    image: require("../../assets/images/product.png"),
-    page: "ProductPage",
+    title: 'Product',
+    image: require('../../assets/images/product.png'),
+    page: 'ProductPage',
   },
   {
-    title: "Website",
-    image: require("../../assets/images/website.png"),
-    page: "WebsitePage",
+    title: 'Website',
+    image: require('../../assets/images/website.png'),
+    page: 'WebsitePage',
   },
-];
+]
 
 const OurStaff = ({ navigation }) => {
-  const [categoryOurstaff, setCategoryOurstaff] = useState([]);
-  const [ourstaffs, setOurstaffs] = useState([]);
+  const [categoryOurstaff, setCategoryOurstaff] = useState([])
+  const [ourstaffs, setOurstaffs] = useState([])
 
-  const [userHomeData, setUserHomeData] = useState({});
-  const [modalPointVisible, setModalPointVisible] = useState(true);
+  const [userHomeData, setUserHomeData] = useState({})
+  const [modalPointVisible, setModalPointVisible] = useState(true)
 
-  const [banners, setBanners] = useState([]);
-  const [runningText, setRunningText] = useState(null);
-  const [modalInvestation, setModalInvestation] = useState(false);
-  const [drugModal, setDrugModal] = useState(false);
+  const [banners, setBanners] = useState([])
+  const [runningText, setRunningText] = useState(null)
+  const [modalInvestation, setModalInvestation] = useState(false)
+  const [drugModal, setDrugModal] = useState(false)
 
-  const { token } = useSelector((state) => state.fcm);
+  const { token } = useSelector((state) => state.fcm)
   const [profile, setProfile] = useState({
     photo: ILNullPhoto,
-    fullName: "",
-    profession: "",
-  });
+    fullName: '',
+    profession: '',
+  })
 
-  const [pointImage, setPointImage] = useState("");
+  const [pointImage, setPointImage] = useState('')
 
   const [userWishlist, setUserWishlist] = useFormSoul({
     product1: [],
     product2: [],
     product3: [],
-  });
+  })
 
-  const pagesScrollRef = useRef(null);
-
-  useEffect(() => {
-    getCategoryOurstaff();
-    getTopRatedOurstaffs();
-
-    navigation.addListener("focus", () => {
-      getUserData();
-    });
-  }, [navigation]);
+  const pagesScrollRef = useRef(null)
 
   useEffect(() => {
-    getBanners();
-    getRunningText();
-    getUserList();
-    getPointImage();
-  }, []);
+    getCategoryOurstaff()
+    getTopRatedOurstaffs()
+
+    navigation.addListener('focus', () => {
+      getUserData()
+    })
+  }, [navigation])
+
+  useEffect(() => {
+    getBanners()
+    getRunningText()
+    getUserList()
+    getPointImage()
+  }, [])
 
   useFocusEffect(
     useCallback(() => {
       Fire.auth().onAuthStateChanged(async (data) => {
         if (data) {
-          getUserHomeData(data.uid);
-          getWishlist(data?.uid);
+          getUserHomeData(data.uid)
+          getWishlist(data?.uid)
         } else {
-          AsyncStorage.clear();
+          // AsyncStorage.clear();
         }
-      });
+      })
     }, [])
-  );
+  )
 
   useEffect(() => {
     const setTokenToFirebase = async () => {
-      let userdata = await getData("user");
+      let userdata = await getData('user')
       if (userdata) {
         const data = {
           fullName: userdata.fullName,
@@ -163,166 +163,170 @@ const OurStaff = ({ navigation }) => {
           tenor3: userdata.tenor3,
           tagihan3: userdata.tagihan3,
           tempo3: userdata.tempo3,
-        };
-        Fire.database().ref(`users/${userdata.uid}/`).update({ token: token });
-        storeData("user", data);
+        }
+        Fire.database().ref(`users/${userdata.uid}/`).update({ token: token })
+        storeData('user', data)
       }
-    };
-    setTokenToFirebase();
-  }, []);
+    }
+    setTokenToFirebase()
+  }, [])
 
   const getPointImage = () => {
     Fire.database()
-      .ref("point_popup_image")
-      .once("value")
+      .ref('point_popup_image')
+      .once('value')
       .then((res) => {
-        console.log("poinntt", res.val());
-        setPointImage(res.val());
-      });
-  };
+        console.log('poinntt', res.val())
+        setPointImage(res.val())
+      })
+  }
 
   const getWishlist = (uid) => {
     Fire.database()
       .ref(`users/${uid}/wishlist`)
-      .once("value")
+      .once('value')
       .then((res) => {
-        const snapshotRes = res.val();
-        const arr1 = [];
-        const arr2 = [];
-        const arr3 = [];
+        const snapshotRes = res.val()
+        const arr1 = []
+        const arr2 = []
+        const arr3 = []
 
         if (snapshotRes) {
           Object.entries(snapshotRes).map((val) => {
-            if (val[0] === "produk") {
-              filterWishlistProduct(val, arr1);
-            } else if (val[0] === "produk2") {
-              filterWishlistProduct(val, arr2);
-            } else if (val[0] === "produk3") {
-              filterWishlistProduct(val, arr3);
+            if (val[0] === 'produk') {
+              filterWishlistProduct(val, arr1)
+            } else if (val[0] === 'produk2') {
+              filterWishlistProduct(val, arr2)
+            } else if (val[0] === 'produk3') {
+              filterWishlistProduct(val, arr3)
             }
-          });
+          })
         }
 
         setUserWishlist({
           product1: arr1,
           product2: arr2,
           product3: arr3,
-        });
+        })
       })
       .catch((err) => {
-        console.error(err);
-      });
-  };
+        console.error(err)
+      })
+  }
 
   const getUserList = () => {
     Fire.database()
-      .ref("users/")
-      .once("value")
+      .ref('users/')
+      .once('value')
       .then(async (res) => {
         if (res.val()) {
-          const data = res.val();
-          const realData = [];
+          const data = res.val()
+          const realData = []
           Object.entries(data).map((val) => {
-            realData.push({ data: val[1] });
-          });
-          const filterData = realData?.filter((val) => val?.data?.uid);
-          storeData("userList", filterData);
+            realData.push({ data: val[1] })
+          })
+          const filterData = realData?.filter((val) => val?.data?.uid)
+          storeData('userList', filterData)
         }
       })
       .catch((err) => {
-        showError(err.message);
-      });
-  };
+        showError(err.message)
+      })
+  }
 
   const getTopRatedOurstaffs = () => {
     Fire.database()
-      .ref("ourstaffs/")
-      .orderByChild("rate")
+      .ref('ourstaffs/')
+      .orderByChild('rate')
       .limitToLast(3)
-      .once("value")
+      .once('value')
       .then((res) => {
         if (res.val()) {
-          const oldData = res.val();
-          const data = [];
+          const oldData = res.val()
+          const data = []
           Object.keys(oldData).map((key) => {
             data.push({
               id: key,
               data: oldData[key],
-            });
-          });
-          setOurstaffs(data);
+            })
+          })
+          setOurstaffs(data)
         }
       })
       .catch((err) => {
-        showError(err.message);
-      });
-  };
+        showError(err.message)
+      })
+  }
 
   const getCategoryOurstaff = () => {
     Fire.database()
-      .ref("category_ourstaff/")
-      .once("value")
+      .ref('category_ourstaff/')
+      .once('value')
       .then((res) => {
         if (res.val()) {
-          const data = res.val();
-          const filterData = data.filter((el) => el !== null);
-          setCategoryOurstaff(filterData);
+          const data = res.val()
+          const filterData = data.filter((el) => el !== null)
+          setCategoryOurstaff(filterData)
         }
       })
       .catch((err) => {
-        showError(err.message);
-      });
-  };
+        showError(err.message)
+      })
+  }
 
   const getUserData = () => {
-    getData("user").then((res) => {
-      const data = res;
-      data.photo = res?.photo?.length > 1 ? { uri: res.photo } : ILNullPhoto;
-      setProfile(res);
-    });
-  };
+    getData('user').then((res) => {
+      const data = res
+      data.photo = res?.photo?.length > 1 ? { uri: res.photo } : ILNullPhoto
+      setProfile(res)
+    })
+  }
 
   const getUserHomeData = (uid) => {
     Fire.database()
-      .ref("users/" + uid)
-      .on("value", (snapshot) => {
+      .ref('users/' + uid)
+      .on('value', (snapshot) => {
         if (snapshot.val()) {
-          setUserHomeData(snapshot.val());
+          setUserHomeData(snapshot.val())
         }
-      });
-  };
+      })
+  }
 
   const getBanners = () => {
     Fire.database()
-      .ref("desain_banner")
-      .once("value")
+      .ref('desain_banner')
+      .once('value')
       .then((res) => {
-        const arr = [...res.val()];
-        const filteredArr = arr.filter((val) => val !== null);
-        const newArr = filteredArr?.map((val) => val?.image);
-        console.log("bannerss", newArr);
-        setBanners(newArr);
+        const arr = [...res.val()]
+        const filteredArr = arr.filter((val) => val !== null)
+        const newArr = filteredArr?.map((val) => val?.image)
+        console.log('bannerss', newArr)
+        setBanners(newArr)
       })
       .catch((err) => {
-        console.error(err);
-      });
-  };
+        console.error(err)
+      })
+  }
 
   const getRunningText = () => {
     Fire.database()
-      .ref("text")
-      .once("value")
+      .ref('text')
+      .once('value')
       .then((res) => {
-        setRunningText(res?.val());
+        setRunningText(res?.val())
       })
       .catch((err) => {
-        console.error(err);
-      });
-  };
+        console.error(err)
+      })
+  }
 
   return (
     <View style={styles.page}>
-      <StatusBar barStyle="dark-content" backgroundColor={"transparent"} translucent/>
+      <StatusBar
+        barStyle='dark-content'
+        backgroundColor={'transparent'}
+        translucent
+      />
       <Gap height={20} />
       <View style={styles.content}>
         <View style={styles.headerContainer}>
@@ -332,7 +336,7 @@ const OurStaff = ({ navigation }) => {
                 y: 0,
                 x: 0,
                 animated: true,
-              });
+              })
             }}
             activeOpacity={0.8}
           >
@@ -345,12 +349,12 @@ const OurStaff = ({ navigation }) => {
             <MemoView style={styles.row}>
               <HomeProfile
                 profile={profile}
-                onPress={() => navigation.navigate("UserProfile", profile)}
+                onPress={() => navigation.navigate('UserProfile', profile)}
               />
               <View style={styles.rowCenter}>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("Wishlist", {
+                    navigation.navigate('Wishlist', {
                       adminData: ourstaffs[0]?.data,
                       wishlist: userWishlist,
                       uid: userHomeData?.uid,
@@ -362,11 +366,14 @@ const OurStaff = ({ navigation }) => {
                 <View style={styles.verticalSeparator} />
                 <View style={styles.rightContainer}>
                   <TouchableOpacity
-                   onPress={() => Linking.openURL('https://wa.me/+62895600394345')}>
+                    onPress={() =>
+                      Linking.openURL('https://wa.me/+62895600394345')
+                    }
+                  >
                     <Image
-                      source={require("../../assets/dummy/dompet.png")}
+                      source={require('../../assets/dummy/dompet.png')}
                       style={{ width: 45, height: 42 }}
-                      resizeMode={"contain"}
+                      resizeMode={'contain'}
                     />
                   </TouchableOpacity>
 
@@ -384,14 +391,14 @@ const OurStaff = ({ navigation }) => {
             <MemoView style={styles.runningTextContainer}>
               <Image
                 style={styles.runningTextLogo}
-                source={require("../../assets/images/megaphone.png")}
+                source={require('../../assets/images/megaphone.png')}
               />
               {runningText ? (
                 <View style={{ flex: 1 }}>
                   <TextTicker
                     style={{
                       fontSize: 16,
-                      width: Dimensions.get("screen").width - 40,
+                      width: Dimensions.get('screen').width - 40,
                     }}
                     duration={60000}
                     loop
@@ -404,22 +411,21 @@ const OurStaff = ({ navigation }) => {
               ) : null}
             </MemoView>
             <AdMobBanner
-          adSize="fullBanner"
-          adUnitID="ca-app-pub-5777911853365634/4841663564"
-          onAdFailedToLoad={error => console.error(error)}
-        />
+              adSize='fullBanner'
+              adUnitID='ca-app-pub-5777911853365634/4841663564'
+              onAdFailedToLoad={(error) => console.error(error)}
+            />
 
             <Text style={styles.welcome}>Health Tech by "UANG"</Text>
             <View>
-            <Button
-              title="Referensi Resep Obat"
-              onPress={() => setDrugModal(true)}
-              style={styles.BtnVideoBerbayar}
+              <Button
+                title='Referensi Resep Obat'
+                onPress={() => setDrugModal(true)}
+                style={styles.BtnVideoBerbayar}
               />
             </View>
-            
           </MemoView>
-            
+
           <MemoView style={styles.wrapperSection}>
             <Text style={styles.sectionLabel}>Kategori</Text>
             <MemoView style={styles.categoryContainer}>
@@ -428,10 +434,10 @@ const OurStaff = ({ navigation }) => {
                   onPress={() => {
                     navigation.navigate(
                       item?.page,
-                      item.page === "ProductPage"
+                      item.page === 'ProductPage'
                         ? { userHomeData, ourstaffs }
                         : {}
-                    );
+                    )
                   }}
                   style={styles.categoryItem}
                   key={index}
@@ -439,7 +445,7 @@ const OurStaff = ({ navigation }) => {
                   <Image
                     style={styles.imageCategory}
                     source={
-                      item?.image || require("../../assets/images/finance.png")
+                      item?.image || require('../../assets/images/finance.png')
                     }
                   />
                   <Text style={styles.titleCategory}>{item?.title}</Text>
@@ -473,14 +479,14 @@ const OurStaff = ({ navigation }) => {
         onClose={() => setModalPointVisible(false)}
       />
     </View>
-  );
-};
+  )
+}
 
-export default OurStaff;
+export default OurStaff
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -491,49 +497,49 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   categoryContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   categoryItem: {
-    flexBasis: "50%",
-    alignItems: "center",
-    justifyContent: "center",
+    flexBasis: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 24,
     paddingHorizontal: 24,
   },
   imageCategory: {
     width: 120,
     height: 120,
-    borderRadius: 20
+    borderRadius: 20,
   },
   titleCategory: {
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: 8,
   },
   runningTextContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 16,
   },
   runningTextLogo: {
     height: 50,
     width: 50,
     marginRight: -7,
-    marginLeft: -16
+    marginLeft: -16,
   },
   page: {
     backgroundColor: colors.secondary,
     flex: 1,
   },
   row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   point: {
     fontSize: 14,
-    color: "#E5B654",
+    color: '#E5B654',
     marginTop: 12,
   },
   content: {
@@ -550,9 +556,9 @@ const styles = StyleSheet.create({
     marginTop: 2,
     marginBottom: 16,
     maxWidth: 209,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
-  category: { flexDirection: "row" },
+  category: { flexDirection: 'row' },
   wrapperScroll: { marginHorizontal: -16 },
   sectionLabel: {
     fontSize: 16,
@@ -560,7 +566,7 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
     marginTop: 30,
     marginBottom: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   transaksi: {
     fontSize: 16,
@@ -569,10 +575,10 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 16,
     paddingLeft: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   transaksi1: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
     paddingBottom: 12,
@@ -588,11 +594,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fonts.primary[600],
     color: colors.text.primary,
-    maxWidth: "90%",
+    maxWidth: '90%',
     paddingLeft: 16,
   },
   garis: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
     paddingBottom: 4,
@@ -600,12 +606,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   rightContainer: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   rowCenter: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     flex: 0.8,
   },
   verticalSeparator: {
@@ -615,8 +621,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.border,
   },
   headerContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     height: 60,
     backgroundColor: colors.secondary,
   },
@@ -624,7 +630,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: colors.primary,
     fontFamily: fonts.primary[900],
-    fontWeight: "bold",
+    fontWeight: 'bold',
     letterSpacing: 2,
   },
-});
+})

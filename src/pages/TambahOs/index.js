@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
@@ -6,30 +6,31 @@ import {
   Text,
   Alert,
   ScrollView,
-} from 'react-native';
-import {InputData, Gap} from '../../components';
-import { Fire } from "../../config";
+} from 'react-native'
+import { connect } from 'react-redux'
+import { InputData, Gap } from '../../components'
+import { Fire } from '../../config'
 
-export default class TambahOs extends Component {
+class TambahOs extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      tanggal: '',  
+      tanggal: '',
       nama: '',
       Keluhan: '',
       TTV: '',
       Penunjang: '',
       DxMedis: '',
       TerapiObat: '',
-    };
+    }
   }
 
   onChangeText = (namaState, value) => {
     this.setState({
       [namaState]: value,
-    });
-  };
+    })
+  }
 
   onSubmit = () => {
     if (
@@ -41,8 +42,9 @@ export default class TambahOs extends Component {
       this.state.DxMedis &&
       this.state.TerapiObat
     ) {
-      const pasienReferensi = Fire.database().ref('pasien');
+      // const pasienReferensi = Fire.database().ref('pasien')
       const pasien = {
+        id: new Date().valueOf(),
         tanggal: this.state.tanggal,
         nama: this.state.nama,
         Keluhan: this.state.Keluhan,
@@ -50,110 +52,137 @@ export default class TambahOs extends Component {
         Penunjang: this.state.Penunjang,
         DxMedis: this.state.DxMedis,
         TerapiObat: this.state.TerapiObat,
-      };
+      }
 
-      pasienReferensi
-        .push(pasien)
-        .then((data) => {
-          Alert.alert('Sukses', 'Data Pasien Tersimpan');
-          this.props.navigation.replace('MainApp');
-        })
-        .catch((error) => {
-          console.log('Error : ', error);
-        });
+      const currentData = [...this.props.pasienList, pasien]
+
+      this.props.updatePasien(currentData)
+      this.props.navigation.replace('MainApp')
+      Alert.alert('Sukses', 'Data Pasien Tersimpan')
+
+      // pasienReferensi
+      //   .push(pasien)
+      //   .then((data) => {
+      //     Alert.alert('Sukses', 'Data Pasien Tersimpan')
+      //     this.props.navigation.replace('MainApp')
+      //   })
+      //   .catch((error) => {
+      //     console.log('Error : ', error)
+      //   })
     } else {
       Alert.alert(
         'Error',
-        'Tanggal Berobat, Nama Pasien, Keluahan, TTV & Pemeriksaan Fisik, Penunjang Medis, DxMedis, dan TerapiObat wajib diisi',
-      );
+        'Tanggal Berobat, Nama Pasien, Keluahan, TTV & Pemeriksaan Fisik, Penunjang Medis, DxMedis, dan TerapiObat wajib diisi'
+      )
     }
-  };
+  }
 
   render() {
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            <Gap height={20} />
-            <ScrollView style={styles.pages}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <Gap height={20} />
+          <ScrollView style={styles.pages}>
             <InputData
-                label="Tanggal Berobat ke Klinik"
-                placeholder="Masukkan Tanggal Berobat"
-                placeholderTextColor={"#000"}
-                isTextArea={true}
-                onChangeText={this.onChangeText}
-                value={this.state.tanggal}
-                namaState="tanggal"
-              />
-              <InputData
-                label="Nama Lengkap Pasien"
-                placeholder="Masukkan Nama"
-                placeholderTextColor={"#000"}
-                isTextArea={true}
-                onChangeText={this.onChangeText}
-                value={this.state.nama}
-                namaState="nama"
-              />
-              <InputData
-                label="Keluhan"
-                placeholder="Masukkan Keluhan"
-                placeholderTextColor={"#000"}
-                isTextArea={true}
-                onChangeText={this.onChangeText}
-                value={this.state.Keluhan}
-                namaState="Keluhan"
-              />
-
-              <InputData
-                label="TTV & Pemeriksaan Fisik"
-                placeholder="Masukkan TTV & Temuan Pemeriksaan Fisik"
-                placeholderTextColor={"#000"}
-                isTextArea={true}
-                onChangeText={this.onChangeText}
-                value={this.state.TTV}
-                namaState="TTV"
-              />
+              label='Tanggal Berobat ke Klinik'
+              placeholder='Masukkan Tanggal Berobat'
+              placeholderTextColor={'#000'}
+              isTextArea={true}
+              onChangeText={this.onChangeText}
+              value={this.state.tanggal}
+              namaState='tanggal'
+            />
+            <InputData
+              label='Nama Lengkap Pasien'
+              placeholder='Masukkan Nama'
+              placeholderTextColor={'#000'}
+              isTextArea={true}
+              onChangeText={this.onChangeText}
+              value={this.state.nama}
+              namaState='nama'
+            />
+            <InputData
+              label='Keluhan'
+              placeholder='Masukkan Keluhan'
+              placeholderTextColor={'#000'}
+              isTextArea={true}
+              onChangeText={this.onChangeText}
+              value={this.state.Keluhan}
+              namaState='Keluhan'
+            />
 
             <InputData
-                label="Penunjang Medis"
-                placeholder="Masukkan Penunjang Medis, hasil Lab, Exp RO dll"
-                placeholderTextColor={"#000"}
-                isTextArea={true}
-                onChangeText={this.onChangeText}
-                value={this.state.Penunjang}
-                namaState="Penunjang"
-              />
+              label='TTV & Pemeriksaan Fisik'
+              placeholder='Masukkan TTV & Temuan Pemeriksaan Fisik'
+              placeholderTextColor={'#000'}
+              isTextArea={true}
+              onChangeText={this.onChangeText}
+              value={this.state.TTV}
+              namaState='TTV'
+            />
 
-              <InputData
-                label="DxMedis"
-                placeholder="Masukkan DxMedis saat ini"
-                placeholderTextColor={"#000"}
-                isTextArea={true}
-                onChangeText={this.onChangeText}
-                value={this.state.DxMedis}
-                namaState="DxMedis"
-              />
+            <InputData
+              label='Penunjang Medis'
+              placeholder='Masukkan Penunjang Medis, hasil Lab, Exp RO dll'
+              placeholderTextColor={'#000'}
+              isTextArea={true}
+              onChangeText={this.onChangeText}
+              value={this.state.Penunjang}
+              namaState='Penunjang'
+            />
 
-              <InputData
-                label="Resep Obat/ Terapi yang di berikan"
-                placeholder="Masukkan Terapi Obat yang di berikan"
-                placeholderTextColor={"#000"}
-                isTextArea={true}
-                onChangeText={this.onChangeText}
-                value={this.state.visite}
-                namaState="TerapiObat"
-              />
+            <InputData
+              label='DxMedis'
+              placeholder='Masukkan DxMedis saat ini'
+              placeholderTextColor={'#000'}
+              isTextArea={true}
+              onChangeText={this.onChangeText}
+              value={this.state.DxMedis}
+              namaState='DxMedis'
+            />
 
-              <TouchableOpacity
-                style={styles.tombol}
-                onPress={() => this.onSubmit()}>
-                <Text style={styles.textTombol}>SIMPAN</Text>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
-        </ScrollView>
-    );
+            <InputData
+              label='Resep Obat/ Terapi yang di berikan'
+              placeholder='Masukkan Terapi Obat yang di berikan'
+              placeholderTextColor={'#000'}
+              isTextArea={true}
+              onChangeText={this.onChangeText}
+              value={this.state.visite}
+              namaState='TerapiObat'
+            />
+
+            <TouchableOpacity
+              style={styles.tombol}
+              onPress={() => this.onSubmit()}
+            >
+              <Text style={styles.textTombol}>SIMPAN</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+      </ScrollView>
+    )
   }
 }
+
+function mapStateToProps(state) {
+  const pasienList = state.pasienReducer.pasienList
+
+  return {
+    pasienList,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updatePasien: (data) =>
+      dispatch({
+        type: 'UPDATE_PASIEN',
+        data,
+      }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TambahOs)
 
 const styles = StyleSheet.create({
   container: {
@@ -179,4 +208,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
-});
+})

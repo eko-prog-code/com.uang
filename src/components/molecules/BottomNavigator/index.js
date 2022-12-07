@@ -87,8 +87,4 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: colors.secondary,
   },
-<<<<<<< HEAD
 })
-=======
-})
->>>>>>> 2fc9df1e684174e35146c2eac8c70950a0e23c36

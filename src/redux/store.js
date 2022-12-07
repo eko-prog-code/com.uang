@@ -1,6 +1,7 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import {combineReducers, createStore} from 'redux';
+import AsyncStorage from '@react-native-community/async-storage'
+import { combineReducers, createStore } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist'
+import { storeData } from '../utils'
 
 // const [profile, setProfile] = useState("prawito");
 
@@ -9,83 +10,96 @@ import { persistStore, persistReducer } from 'redux-persist'
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ["fcm"]
+  whitelist: ['fcm'],
 }
 
 const initialState = {
   loading: false,
   name: 'Prawito Hudoro',
   address: 'Cisauk',
-};
+}
 
 const reducer = (state = initialState, action) => {
   if (action.type === 'SET_LOADING') {
     return {
       ...state,
       loading: action.value,
-    };
+    }
   }
   if (action.type === 'SET_NAME') {
     return {
       ...state,
       name: 'Azzamy',
-    };
+    }
   }
-  return state;
-};
-
+  return state
+}
 
 const initialStateToken = {
-  token:""
+  token: '',
 }
 const tokenReducer = (state = initialStateToken, action) => {
-  if (action.type === "ADDFCM") {
+  if (action.type === 'ADDFCM') {
     return {
       ...state,
-      token:action.data
-    };
+      token: action.data,
+    }
   }
 
-  return state;
+  return state
 }
 
-
 const initialNotifikasi = {
-  route:"",
-  param:null
+  route: '',
+  param: null,
 }
 const notifikasiReducer = (state = initialNotifikasi, action) => {
   switch (action.type) {
-    case "ADDNOTIFIKASI":
-      let data = action.data;
+    case 'ADDNOTIFIKASI':
+      let data = action.data
       return {
         ...state,
-        route:data.route,
-        param:data.param
+        route: data.route,
+        param: data.param,
       }
 
-    case "REMOVENOTIFIKASI":
+    case 'REMOVENOTIFIKASI':
       return {
         ...state,
-        route:"",
-        param:null
-      };
+        route: '',
+        param: null,
+      }
     default:
-      return state;
+      return state
   }
 }
 
+const initialPasien = {
+  pasienList: [],
+}
 
+const pasienReducer = (state = initialPasien, action) => {
+  switch (action.type) {
+    case 'UPDATE_PASIEN':
+      storeData('pasien', action.data)
 
-const rootReducer = combineReducers(
-  {
-    reducer:reducer,
-    fcm:tokenReducer,
-    notifikasi:notifikasiReducer
+      return {
+        ...state,
+        pasienList: action.data,
+      }
+    default:
+      return state
   }
-)
+}
+
+const rootReducer = combineReducers({
+  reducer: reducer,
+  fcm: tokenReducer,
+  notifikasi: notifikasiReducer,
+  pasienReducer,
+})
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const configureStore = createStore(persistedReducer)
-export const persistor = persistStore(configureStore);
+export const persistor = persistStore(configureStore)

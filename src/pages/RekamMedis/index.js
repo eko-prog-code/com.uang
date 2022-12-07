@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 import {
   Text,
   StyleSheet,
@@ -7,33 +7,41 @@ import {
   Alert,
   ScrollView,
   StatusBar,
-} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faPlus, faUser} from '@fortawesome/free-solid-svg-icons';
-import DaftarPasien from '../../components/molecules/DaftarPasien';
-import InputData from '../../components/atoms/InputData';
-import { Fire } from "../../config";
+} from 'react-native'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faPlus, faUser } from '@fortawesome/free-solid-svg-icons'
+import DaftarPasien from '../../components/molecules/DaftarPasien'
+import InputData from '../../components/atoms/InputData'
+import { Fire } from '../../config'
+import { connect } from 'react-redux'
 
-export default class RekamMedis extends Component { 
+class RekamMedis extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       pasiens: [],
       originalPasiens: [],
-    };
+    }
   }
 
   componentDidMount() {
-    this.ambilData();
+    // this.ambilData()
+
+    setTimeout(() => {
+      this.setState({
+        pasiens: this.props.pasienList,
+        originalPasiens: this.props.pasienList,
+      })
+    }, 2000)
   }
 
   ambilData = () => {
     Fire.database()
       .ref('pasien')
       .once('value', (querySnapShot) => {
-        let data = querySnapShot.val() ? querySnapShot.val() : {};
-        let arr = [];
+        let data = querySnapShot.val() ? querySnapShot.val() : {}
+        let arr = []
 
         Object.entries(data).map((val) => {
           arr.push({
@@ -45,25 +53,25 @@ export default class RekamMedis extends Component {
             Penunjang: val[1]?.Penunjang,
             DxMedis: val[1]?.DxMedis,
             TerapiObat: val[1]?.TerapiObat,
-          });
-        });
+          })
+        })
 
         this.setState({
           pasiens: arr,
           originalPasiens: arr,
-        });
-      });
-  };
+        })
+      })
+  }
 
   onSearchPatient = (_, searchValue) => {
-    let arr = [...this.state.originalPasiens];
-    var searchRegex = new RegExp(searchValue, 'i');
-    arr = arr.filter((item) => searchRegex?.test(item?.nama?.toLowerCase()));
-    console.log(arr);
+    let arr = [...this.state.originalPasiens]
+    var searchRegex = new RegExp(searchValue, 'i')
+    arr = arr.filter((item) => searchRegex?.test(item?.nama?.toLowerCase()))
+    console.log(arr)
     this.setState({
       pasiens: arr,
-    });
-  };
+    })
+  }
 
   removeData = (id) => {
     Alert.alert(
@@ -78,68 +86,107 @@ export default class RekamMedis extends Component {
         {
           text: 'OK',
           onPress: () => {
-            Fire.database()
-              .ref('pasien/' + id)
-              .remove();
-            this.ambilData();
-            Alert.alert('Hapus', 'Sukses Hapus Data');
+            // Fire.database()
+            //   .ref('pasien/' + id)
+            //   .remove()
+            // this.ambilData()
+            const currentData = this.props.pasienList.filter(
+              (item) => item.id !== id
+            )
+            this.props.updatePasien(currentData)
+            this.setState({
+              pasiens: currentData,
+              originalPasiens: currentData,
+            })
+            Alert.alert('Hapus', 'Sukses Hapus Data')
           },
         },
       ],
-      {cancelable: false},
-    );
-  };
+      { cancelable: false }
+    )
+  }
 
   render() {
-    const {pasiens} = this.state;
-    
+    const { pasiens } = this.state
+
     return (
       <View style={styles.page}>
-        <StatusBar barStyle="dark-content" backgroundColor={'rgba(0,0,0,0.5)'} hidden={false} />
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor={'rgba(0,0,0,0.5)'}
+          hidden={false}
+        />
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>Rekam Medis</Text>
           <InputData
-              placeholder={'Cari Pasien'}
-              placeholderColor={'#FFFFFF'}
-              onChangeText={this.onSearchPatient}
-            />
+            placeholder={'Cari Pasien'}
+            placeholderColor={'#FFFFFF'}
+            onChangeText={this.onSearchPatient}
+          />
           <View>
-          <View style={styles.wrapperUser}>
+            <View style={styles.wrapperUser}>
               <TouchableOpacity
                 style={styles.btnTambah}
-                onPress={() => this.props.navigation.navigate('TambahOs')}>
+                onPress={() => this.props.navigation.navigate('TambahOs')}
+              >
                 <FontAwesomeIcon icon={faUser} size={20} color={'white'} />
                 <View>
-                <FontAwesomeIcon style={styles.plus} icon={faPlus} size={18} color={'white'} />
-                <Text style={styles.text}>TAMBAH PASIEN</Text>
+                  <FontAwesomeIcon
+                    style={styles.plus}
+                    icon={faPlus}
+                    size={18}
+                    color={'white'}
+                  />
+                  <Text style={styles.text}>TAMBAH PASIEN</Text>
                 </View>
               </TouchableOpacity>
-          </View>
+            </View>
             <View style={styles.wrapperScroll}>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <View style={styles.category}>
-                    {pasiens.length > 0 ? (
-                      pasiens.map((item, key) => (
-                        <DaftarPasien
-                          key={key}
-                          pasienItem={item}
-                          id={item?.id}
-                          {...this.props}
-                          removeData={() => this.removeData(item?.id)}
-                        />
-                      ))
-                    ) : (
-                      <Text style={styles.zero}>Daftar Kosong</Text>
-                    )}
-                  </View>
-                </ScrollView>
-              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={styles.category}>
+                  {pasiens.length > 0 ? (
+                    pasiens.map((item, key) => (
+                      <DaftarPasien
+                        key={key}
+                        pasienItem={item}
+                        id={item?.id}
+                        {...this.props}
+                        removeData={() => this.removeData(item?.id)}
+                      />
+                    ))
+                  ) : (
+                    <Text style={styles.zero}>Daftar Kosong</Text>
+                  )}
+                </View>
+              </ScrollView>
+            </View>
           </View>
         </ScrollView>
       </View>
-    );
+    )
   }
 }
+
+function mapStateToProps(state) {
+  const pasienList = state.pasienReducer.pasienList
+
+  return {
+    pasienList,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updatePasien: (data) =>
+      dispatch({
+        type: 'UPDATE_PASIEN',
+        data,
+      }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RekamMedis)
+
 const styles = StyleSheet.create({
   page: {
     flex: 1,
@@ -179,7 +226,7 @@ const styles = StyleSheet.create({
   },
   zero: {
     marginLeft: 14,
-    color: "#FFFFFF"
+    color: '#FFFFFF',
   },
   text: {
     marginTop: -20,
@@ -193,7 +240,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginTop: 6,
   },
-  category: {flexDirection: 'row'},
+  category: { flexDirection: 'row' },
   btnTambah: {
     marginTop: 8,
     padding: 20,
@@ -209,4 +256,4 @@ const styles = StyleSheet.create({
 
     elevation: 5,
   },
-});
+})
