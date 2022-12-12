@@ -454,7 +454,7 @@ const OurStaff = ({ navigation }) => {
             </MemoView>
           </MemoView>
 
-          <RekamMedis navigation={navigation} />
+          <RekamMedis navigation={navigation} profile={userHomeData} />
           <Gap height={30} />
           <ApplovinBanner width={Dimensions.get('screen').width - 30} />
         </ScrollView>

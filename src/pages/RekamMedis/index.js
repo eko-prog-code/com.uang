@@ -106,6 +106,22 @@ class RekamMedis extends Component {
     )
   }
 
+  handleAddPasien = () => {
+    const profile = this.props.profile
+    const pasienList = this.props.pasienList
+    if (pasienList.length === 5 && !profile?.premiumExpired) {
+      Alert.alert('Upgrade akun anda!')
+    } else if (
+      pasienList.length === 5 &&
+      profile?.premiumExpired &&
+      new Date() > new Date(profile.premiumExpired)
+    ) {
+      Alert.alert('Akses berlangganan anda telah kadaluarsa!')
+    } else {
+      this.props.navigation.navigate('TambahOs')
+    }
+  }
+
   render() {
     const { pasiens } = this.state
 
@@ -127,7 +143,7 @@ class RekamMedis extends Component {
             <View style={styles.wrapperUser}>
               <TouchableOpacity
                 style={styles.btnTambah}
-                onPress={() => this.props.navigation.navigate('TambahOs')}
+                onPress={this.handleAddPasien}
               >
                 <FontAwesomeIcon icon={faUser} size={20} color={'white'} />
                 <View>
