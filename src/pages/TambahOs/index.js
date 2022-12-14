@@ -6,9 +6,10 @@ import {
   Text,
   Alert,
   ScrollView,
+  Modal,
 } from 'react-native'
 import { connect } from 'react-redux'
-import { InputData, Gap } from '../../components'
+import { InputData, Gap, UploadPhoto, Signature } from '../../components'
 import { Fire } from '../../config'
 
 class TambahOs extends Component {
@@ -23,6 +24,9 @@ class TambahOs extends Component {
       Penunjang: '',
       DxMedis: '',
       TerapiObat: '',
+      image: null,
+      signature: null,
+      showModal: false,
     }
   }
 
@@ -52,6 +56,8 @@ class TambahOs extends Component {
         Penunjang: this.state.Penunjang,
         DxMedis: this.state.DxMedis,
         TerapiObat: this.state.TerapiObat,
+        image: this.state.image ?? null,
+        signature: this.state.signature,
       }
 
       const currentData = [...this.props.pasienList, pasien]
@@ -151,11 +157,40 @@ class TambahOs extends Component {
               namaState='TerapiObat'
             />
 
+            <UploadPhoto
+              title='Upload Photo'
+              uri={this.state.image}
+              handlePhoto={(uri) => this.setState({ image: uri })}
+            />
+
+            <Signature
+              show={this.state.showModal}
+              hide={() => this.setState({ showModal: false })}
+              handleSignature={(uri) => this.setState({ signature: uri })}
+              handleSave={() => {
+                this.onSubmit()
+                this.setState({ showModal: false })
+              }}
+            />
+
             <TouchableOpacity
               style={styles.tombol}
-              onPress={() => this.onSubmit()}
+              onPress={() =>
+                this.state.tanggal &&
+                this.state.nama &&
+                this.state.Keluhan &&
+                this.state.TTV &&
+                this.state.Penunjang &&
+                this.state.DxMedis &&
+                this.state.TerapiObat
+                  ? this.setState({ showModal: true })
+                  : Alert.alert(
+                      'Error',
+                      'Tanggal Berobat, Nama Pasien, Keluahan, TTV & Pemeriksaan Fisik, Penunjang Medis, DxMedis, dan TerapiObat wajib diisi'
+                    )
+              }
             >
-              <Text style={styles.textTombol}>SIMPAN</Text>
+              <Text style={styles.textTombol}>LANJUT</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
@@ -207,5 +242,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 16,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
   },
 })

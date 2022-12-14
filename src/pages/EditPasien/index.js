@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native'
 import { connect } from 'react-redux'
-import { InputOs, Gap } from '../../components'
+import { InputOs, Gap, UploadPhoto, Signature } from '../../components'
 import { Fire } from '../../config'
 
 class EditPasien extends Component {
@@ -23,6 +23,9 @@ class EditPasien extends Component {
       Penunjang: '',
       DxMedis: '',
       TerapiObat: '',
+      image: null,
+      signature: null,
+      showModal: false,
     }
   }
 
@@ -56,6 +59,8 @@ class EditPasien extends Component {
       Penunjang: pasienItem.Penunjang,
       DxMedis: pasienItem.DxMedis,
       TerapiObat: pasienItem.TerapiObat,
+      image: pasienItem.image,
+      signature: pasienItem.signature,
     })
   }
 
@@ -108,6 +113,8 @@ class EditPasien extends Component {
         Penunjang: this.state.Penunjang,
         DxMedis: this.state.DxMedis,
         TerapiObat: this.state.TerapiObat,
+        image: this.state.image,
+        signature: this.state.signature,
       }
 
       const currentData = [...this.props.pasienList]
@@ -199,11 +206,40 @@ class EditPasien extends Component {
                 namaState='TerapiObat'
               />
 
+              <UploadPhoto
+                title='Upload Photo'
+                uri={this.state.image}
+                handlePhoto={(uri) => this.setState({ image: uri })}
+              />
+
+              <Signature
+                show={this.state.showModal}
+                hide={() => this.setState({ showModal: false })}
+                handleSignature={(uri) => this.setState({ signature: uri })}
+                handleSave={() => {
+                  this.onSubmit()
+                  this.setState({ showModal: false })
+                }}
+              />
+
               <TouchableOpacity
                 style={styles.tombol}
-                onPress={() => this.onSubmit()}
+                onPress={() =>
+                  this.state.tanggal &&
+                  this.state.nama &&
+                  this.state.Keluhan &&
+                  this.state.TTV &&
+                  this.state.Penunjang &&
+                  this.state.DxMedis &&
+                  this.state.TerapiObat
+                    ? this.setState({ showModal: true })
+                    : Alert.alert(
+                        'Error',
+                        'Tanggal Berobat, Nama Pasien, Keluahan, TTV & Pemeriksaan Fisik, Penunjang Medis, DxMedis, dan TerapiObat wajib diisi'
+                      )
+                }
               >
-                <Text style={styles.textTombol}>SIMPAN</Text>
+                <Text style={styles.textTombol}>LANJUT</Text>
               </TouchableOpacity>
             </ScrollView>
           </View>

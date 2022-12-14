@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { Text, StyleSheet, View, Pressable, Image, Modal } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Fire } from '../../config'
 import { Gap } from '../../components'
 import { connect } from 'react-redux'
+import ImageViewer from 'react-native-image-zoom-viewer'
+import { colors } from '../../utils'
 
 class ListPasien extends Component {
   constructor(props) {
@@ -11,6 +13,7 @@ class ListPasien extends Component {
 
     this.state = {
       pasien: {},
+      showImage: false,
     }
   }
 
@@ -37,6 +40,7 @@ class ListPasien extends Component {
 
   render() {
     const { pasien } = this.state
+
     return (
       <View style={styles.container}>
         <Gap height={20} />
@@ -61,7 +65,48 @@ class ListPasien extends Component {
 
           <Text>Terapi Obat : </Text>
           <Text style={styles.text}>{pasien.TerapiObat} </Text>
+
+          {pasien.image && (
+            <>
+              <Text>Photo : </Text>
+              <Pressable onPress={() => this.setState({ showImage: true })}>
+                <Image
+                  source={{ uri: pasien.image }}
+                  resizeMode='cover'
+                  style={styles.image}
+                />
+              </Pressable>
+            </>
+          )}
+
+          {pasien.signature && (
+            <>
+              <Text>Tanda Tangan : </Text>
+              <Image
+                source={{ uri: pasien.signature }}
+                resizeMode='contain'
+                style={{
+                  width: '100%',
+                  height: 100,
+                }}
+              />
+            </>
+          )}
         </ScrollView>
+
+        <Modal
+          visible={this.state.showImage}
+          transparent={true}
+          onRequestClose={() => this.setState({ showImage: false })}
+        >
+          <ImageViewer
+            imageUrls={[
+              {
+                url: pasien.image,
+              },
+            ]}
+          />
+        </Modal>
       </View>
     )
   }
@@ -100,6 +145,13 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 15,
+    marginTop: 5,
     marginBottom: 10,
   },
 })

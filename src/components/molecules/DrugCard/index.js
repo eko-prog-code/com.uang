@@ -1,66 +1,90 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Dimensions,
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
+  Modal,
+} from 'react-native'
+import ImageViewer from 'react-native-image-zoom-viewer'
 
-const DrugCard = ({item, type, onRemove, onPress, uid, produk, onAdd}) => {
-  const [isLoading, setLoading] = useState(false);
-  const [name, setName] = useState('');
+const DrugCard = ({ item, type, onRemove, onPress, uid, produk, onAdd }) => {
+  const [isLoading, setLoading] = useState(false)
+  const [name, setName] = useState('')
+  const [showImage, setShowImage] = React.useState(false)
 
   useEffect(() => {
-    changeTitle();
-  }, []);
+    changeTitle()
+  }, [])
 
   const changeTitle = () => {
-    let title = item?.title;
-    let arr = title.split('(');
-    arr = arr.join('\n(');
-    setName(arr);
-  };
+    let title = item?.title
+    let arr = title.split('(')
+    arr = arr.join('\n(')
+    setName(arr)
+  }
 
   return (
-    <View  style={{
+    <View
+      style={{
         paddingRight: 20,
-      }}>
-      <Image
-        source={{
-          uri: item?.image || '',
-        }}
-        style={{
-          width: 420,
-          height: 320,
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
-        }}
-      />
+      }}
+    >
+      <Pressable onPress={() => setShowImage(true)}>
+        <Image
+          source={{
+            uri: item?.image || '',
+          }}
+          style={{
+            width: 420,
+            height: 320,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+          }}
+        />
+      </Pressable>
       <View
         style={{
           padding: 20,
           backgroundColor: 'white',
           borderBottomRightRadius: 10,
           borderBottomLeftRadius: 10,
-        }}>
+        }}
+      >
         <Text
           style={{
             fontSize: 16,
             fontWeight: 'bold',
             color: '#2d3436',
             marginTop: 8,
-          }}>
+          }}
+        >
           {name}
         </Text>
       </View>
-    </View>
-  );
-};
 
-export default DrugCard;
+      <Modal
+        visible={showImage}
+        transparent={true}
+        onRequestClose={() => setShowImage(false)}
+      >
+        <ImageViewer
+          imageUrls={[
+            {
+              url: item?.image ?? '',
+            },
+          ]}
+        />
+      </Modal>
+    </View>
+  )
+}
+
+export default DrugCard
 
 const styles = StyleSheet.create({
   shadow: {
@@ -79,4 +103,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-});
+})
